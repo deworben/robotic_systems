@@ -3,19 +3,19 @@
     % 'forward_kinematics.m' takes 3 arguments: 
     % - the joint space Q, 
     % - a string to specify if you want to print a stick figure, enter
-    % - 'Print' to output a stick figure 
-    % - the frame number you wish to output (i.e for end effector, would
+    % - 'Print'
+    % - the frame number you wish to ouput (i.e for end effector, would
     % - enter 5) 
     % The function returns the pose for a specified frame. It can also
-    % print a stick figure if specified. 
+    % print a stick figure graph by 
 
 function [T0F] = forward_kinematics(Q,PrintStick,frame)
     %% system parameters 
     % robot angles 
     t1 = Q(1);
     t2 = Q(2); 
-    t3 = Q(3);
-    t4 = Q(4); 
+    t3 = Q(3); %orienting the motors in the opposite direciton here 
+    t4 = Q(4); % same here. 
   
     % link lengths 
     syms l1 l2 l3 lE
@@ -33,8 +33,7 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
 
     
     %% DH Table 
-    DH_Table = [a0 0 d1 t1; a1 pi/2 0 t2; a2 0 0 t3; a3 0 0 t4; ...
-        0 pi/2 dE 0];
+    DH_Table = [a0 0 d1 t1; a1 pi/2 0 t2; a2 0 0 t3; a3 0 0 t4; 0 pi/2 dE 0];
 
     %% Get the transformation matrices for each row of DH table 
 
@@ -49,7 +48,7 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
 
     end 
 
-    %% Get the transformation matrices to express the joints from origin 
+    %% Get the end transformation matrices to express the joints from origin 
     % the transformation matrices T0i can be used for plotting 
     T0i(:,:,1) = Timinus_i(:,:,1); 
     previous = T0i(:,:,1); 
@@ -59,7 +58,7 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
         previous = T0i(:,:,i) ;
     end 
     
-     %% Print Stick Figure if specified    
+     %% confirmation of forward kinematics      
      if PrintStick == "Print"
         
         n_transforms = frame; 
@@ -94,10 +93,8 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
     end 
     
     %% return the pose of a particular joint 
-    
     % note if frame = 5 then return end effecter i.e solve forward
     % kinematics
-    
     T0F = T0i(:,:,frame);
 end 
    

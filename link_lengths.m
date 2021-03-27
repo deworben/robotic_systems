@@ -8,7 +8,7 @@
 
 % set the joint restraints (estimating about 270 degrees rotation) 
 % allow maximum base rotation 
-t1_range = [-deg2rad(135):0.5:deg2rad(135)];
+t1_range = [-deg2rad(135):0.1:deg2rad(135)];
 dt_1 = size(t1_range,2);
 
 % dont want to rotate higher or lower than 90 degrees for second joint 
@@ -34,48 +34,27 @@ tolerance = 0.001;
 chessboard_height = 0.02; 
 X = zeros(0);
 Y = zeros(0);
+% plot maximum and minimum reach of the end effector arm 
 for i = 1:dt_1 
+    q_1 = i;
+    Q_max = [q_1,0,0,0]; 
+    Q_min = [q_1,deg2rad(90),deg2rad(-180),-(deg2rad(90)+deg2rad(-90))];
+    TE0_max = forward_kinematics(Q_max,'No Print',5);
+    TE0_min = forward_kinematics(Q_min,'No Print',5);
     
-    t1 = t1_range(i);
+    XMAX(i) = TE0_max(1,4);
+    YMAX(i) = TE0_max(2,4);
     
-    for j = 1:dt_2
-        
-        t2 = t2_range(j);
-        
-        for k = 1:dt_3
-            
-            t3 = t3_range(k);
-            
-             % ensure straight arm configuration doesnt occur
-   
-            if (t3 == t2) 
-                break 
-            end 
-            
-            % t4  = t3 + t2
-            for l = 1:dt_4
-                
-                t4 = t4_range(l);
-               
-                % solve forward kinematics 
-                Q = [t1,t2,t3,t3] ;
-                T0E = forward_kinematics(Q,'No Print',5); 
-                
-                % extract xyz coordinates for end effector position
-                x = T0E(1,4);
-                y = T0E(2,4);
-                z = T0E(3,4);
-            
-                % store XY values if within correct chessboard height
-                if (z <=  chessboard_height + tolerance) ...
-                        && (z >=  chessboard_height - tolerance)
-                    X(end+1) = x
-                    Y(end+1) = y  
-                end 
-            end 
-        end 
-    end
-end 
+    X_MIN(i) = TE0_min(1,4);
+    Y_MIN(i) = TE0_min(2,4);
+    
+    
+    
+end
 
-%scatter plot of taskspace at height of chessboard
-scatter(X,Y)
+    plot(XMAX,YMAX,'o')
+    hold on 
+    plot(X_MIN,Y_MIN,'o')
+    hold on 
+hold off 
+
