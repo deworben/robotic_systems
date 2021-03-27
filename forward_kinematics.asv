@@ -8,10 +8,10 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
   
     % link lengths 
     syms l1 l2 l3 lE
-    l1 = 15;
-    l2 = 25;
-    l3 = 25; 
-    lE = 10;
+    l1 = 10;
+    l2 = 30;
+    l3 = 30; 
+    lE = 5;
     
     a0  = 0;
     a1 = 0;
@@ -62,7 +62,8 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
 %         figure 
         set(gca,'FontSize', 14)
         
-
+        xlim([0 10]);
+        ylim([-0.4 0.8]);
         % round to prevent any weird rounding errors and plot stick figure 
         plot3(round(X,5),round(Y,5),round(Z,5))  
         xlabel('x_0 Displacement (cm)','FontSize',14)

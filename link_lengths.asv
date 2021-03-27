@@ -30,6 +30,35 @@ chessboard_height = 0.02;
 X = zeros(0);
 Y = zeros(0);
 
+%    
+%             if (t3 == t2) 
+%                 break 
+%             end 
+%             
+%             % t4  = t3 + t2
+%             for l = 1:dt_4
+%                 
+%                 t4 = t4_range(l);
+%                
+%                 % solve forward kinematics 
+%                 Q = [t1,t2,t3,t3] ;
+%                 T0E = forward_kinematics(Q,'No Print',5); 
+%                 
+%                 % extract xyz coordinates for end effector position
+%                 x = T0E(1,4);
+%                 y = T0E(2,4);
+%                 z = T0E(3,4);
+%             
+%                 % store XY values if within correct chessboard height
+%                 if (z <=  chessboard_height + tolerance) ...
+%                         && (z >=  chessboard_height - tolerance)
+%                     X(end+1) = x
+%                     Y(end+1) = y  
+%                 end 
+%             end 
+%         end 
+%     end
+% end 
 
 % figure
 counter = 1;
@@ -42,9 +71,10 @@ for j = 1:dt_2
         if (t3 == t2) 
             continue 
         end 
+        
 
-%       OPTIONAL: Visualise one position of the end effector to test it's working
-        for i=1:1
+
+%         Visualise one position of the end effector to test it's working
 %         if rem(counter, 2) == 0
 %             t2;
 %             t3;
@@ -52,11 +82,7 @@ for j = 1:dt_2
 %             Q = [0,t2,t3,t4];
 %             forward_kinematics(Q,'Print',5);  
 %         end
-          end
-
-
-        % Solve forward kinematics with end_effector @ 90 degrees
-        % constraint
+        
         t4  = - t3 - t2;
         Q = [0,t2,t3,t4];
         T0E = forward_kinematics(Q,'No Print',5); 
@@ -76,15 +102,7 @@ for j = 1:dt_2
         
         counter = counter + 1;
         
-        % OPTIONAL: store XY values if within correct chessboard height
-        for i=1:1
-        %                 if (z <=  chessboard_height + tolerance) ...
-        %                         && (z >=  chessboard_height - tolerance)
-        %                     X(end+1) = x
-        %                     Y(end+1) = y  
-        end    
     end
-    
 end
 
 %XZ square for chessboard (sizes in the respective axes)
