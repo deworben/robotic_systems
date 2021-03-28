@@ -1,12 +1,13 @@
-function [Q] = inverse_kinematics(x,y,z)
-    %argument is the x,y,z coordinates  of the end effector in frame 0
-    %(E_0)
+function [Q] = inverse_kinematics(x,y,z,manifold)
+    %arguments are the x,y,z coordinates of the end effector in frame 0
+    %(E_0) and manifold = 'up' or 'down' to choose between the elbow up and down solution
+    %manifolds
     
     %arm length parameters
-    l0 = 0.05;
-    l1 = 0.30; %m
-    l2 = 0.30; %m
-    lE = 0.1; %m (length of end effector tube)
+    l0 = 5; %cm
+    l1 = 30; %cm
+    l2 = 30; %cm
+    lE = 10; %cm (length of end effector tube)
      
     %the target x,y in frame 0 determine q0 (the rotation of the base)
     q0 = atan2(y,x);
@@ -39,7 +40,7 @@ function [Q] = inverse_kinematics(x,y,z)
     %translate up by the length of the end effector to point C (see
     %diagram)
     x_C = x_E;
-    z_C = z_E + lE
+    z_C = z_E + lE;
 
     %these parameters don't depend on the quadrant or whether elbow is up
     %or down
@@ -48,23 +49,29 @@ function [Q] = inverse_kinematics(x,y,z)
     
     
     %% Quadrant 1 solutions (we are not always in quadrant 1, as the end effector may be lower than the 2nd joint 
-    %elbow up solution (we want this one)
-    q2 = -D;
+    if (strcmp(manifold,'up'))  
+        %elbow up solution (we want this one)
+        q2 = -D;
     
-    % because q2 is always negative, and gamma is less than 180 degrees, 
-    % set gamma to be be pi + q2 (since this will subtract the negative
-    % component  
-    gamma = pi + q2; %internal angle created by the two arms 
-    alpha = asin(l2*sin(gamma)/sqrt(x_C^2 + z_C^2)); %by sine rule
-    q1 = beta + alpha;
-    q3 = -(q2 + q1);
+        % because q2 is always negative, and gamma is less than 180 degrees, 
+        % set gamma to be be pi + q2 (since this will subtract the negative
+        % component  
+        gamma = pi + q2; %internal angle created by the two arms 
+        alpha = asin(l2*sin(gamma)/sqrt(x_C^2 + z_C^2)); %by sine rule
+        q1 = beta + alpha;
+        q3 = -(q2 + q1);
+    elseif (strcmp(manifold,'down'))
+        %elbow down solution
+        q2 = D;
+        gamma = abs(pi - q2); %internal angle created by the two arms 
+        alpha = asin(l2*sin(gamma)/sqrt(x_C^2 + z_C^2)); %by sine rule
+        q1 = beta - alpha;
+        q3 = -(q2 + q1);
+    else
+        fprintf("ERROR, 4th arg should be 'up' or 'down'\n");
+        return
+    end
     
-%     %elbow down solution
-%     q2 = D;
-%     gamma = abs(pi - q2); %internal angle created by the two arms 
-%     alpha = asin(l2*sin(gamma)/sqrt(x_C^2 + z_C^2)); %by sine rule
-%     q1 = beta - alpha;
-%     q3 = q2 - q1;
     
 %     % Quadrant 2 solutions 
 %     %elbow up
@@ -81,10 +88,6 @@ function [Q] = inverse_kinematics(x,y,z)
 %     q1 = beta + (pi - alpha);
 %     q3 = q2-q1;
 %     
-
-%% NOTES
-%unsure if the q3 calculation works for the elbow down solution or either
-%quadrant 2 solution
 
 %% Return Q
 Q = [q0,q1,q2,q3];

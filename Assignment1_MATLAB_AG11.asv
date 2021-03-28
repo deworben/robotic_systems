@@ -100,7 +100,7 @@ End_Effector_Frame = 5;
 %specify the two test positions on the chess board in frame 0 (A and B), cm
 testA = [30, 30, 3]; %this is at roughly the height of the chessboard, simulating grabbing a piece
 testB = [20, 10, 10]; %this is 10cm in the air, simulating moving between pieces
-EPSILON = 0.1; %for testing if the solutions are close enough
+EPSILON = 0.5; %for testing if the solutions are close enough
 
 %run the inverse kinematics script to determine the corresponding joint
 %space solutions (show elbow up and elbow down), then run the forward 
@@ -110,50 +110,33 @@ EPSILON = 0.1; %for testing if the solutions are close enough
 
 %test A
 %elbow up solution
-Q = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
+[q1, q2, q3, q4] = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
-    fprintf('test A passed, elbow up configuration\n');
-else 
-    fprintf('test A failed, elbow up configuration\n');
-end
+[x,y,z] = 
+if (x == testA(1) && y == testA(2) && z = testA(3))
 
 %elbow down solution
-Q = inverse_kinematics(testA(1), testA(2), testA(3), 'down');
+[q1, q2, q3, q4] = inverse_kinematics(testA(1), testA(2), testA(3), 'down');
 
 %elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
-    fprintf('test A passed, elbow down configuration\n');
-else 
-    fprintf('test A failed, elbow down configuration\n');
-end
 
 %note: although both the solutions are valid, the elbow up solution should
 %be selected because that is the configuration the robot should always
 %operate in
 
-% %test B
+%test B
 %elbow up solution
-Q = inverse_kinematics(testB(1), testB(2), testB(3), 'up');
+[q1, q2, q3, q4] = inverse_kinematics(testB(1), testB(2), testB(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
-    fprintf('test B passed, elbow up configuration\n');
-else 
-    fprintf('test B failed, elbow up configuration\n');
-end
+[x,y,z] = forward_kinematics(%args);
+if (x == test
+    
 
 %elbow down solution
-Q = inverse_kinematics(testB(1), testB(2), testB(3), 'down');
+[q1, q2, q3, q4] = inverse_kinematics(testB(1), testB(2), testB(3), 'down');
 
 %elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
-    fprintf('test B passed, elbow down configuration\n');
-else 
-    fprintf('test B failed, elbow down configuration\n');
-end     
+
+         
