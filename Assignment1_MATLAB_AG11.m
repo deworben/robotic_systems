@@ -113,7 +113,7 @@ EPSILON = 0.1; %for testing if the solutions are close enough
 Q = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'no', 5);
+T_05 = forward_kinematics(Q, 'Print', 5);
 if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
     fprintf('test A passed, elbow up configuration\n');
 else 

@@ -4,9 +4,9 @@ function [Q] = inverse_kinematics(x,y,z,manifold)
     %manifolds
     
     %arm length parameters
-    l0 = 5; %cm
-    l1 = 30; %cm
-    l2 = 30; %cm
+    l0 = 30; %cm
+    l1 = 35; %cm
+    l2 = 35; %cm
     lE = 10; %cm (length of end effector tube)
      
     %the target x,y in frame 0 determine q0 (the rotation of the base)
@@ -79,7 +79,7 @@ function [Q] = inverse_kinematics(x,y,z,manifold)
 %     gamma = abs(pi - q2); %internal angle created by the two arms 
 %     alpha = asin(l2*sin(gamma)/sqrt(x_C^2 + z_C^2)); %by sine rule
 %     q1 = beta - (pi - alpha);
-%     q3 = q2-q1;
+%     q3 = -q2-q1;
     
 %     %elbow down
 %     q2 = -D;

@@ -19,10 +19,10 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
   
     % link lengths 
     syms l1 l2 l3 lE
-    l1 = 10;
-    l2 = 30;
-    l3 = 30; 
-    lE = 5;
+    l1 = 30;
+    l2 = 35;
+    l3 = 35; 
+    lE = 10;
     
     a0  = 0;
     a1 = 0;
