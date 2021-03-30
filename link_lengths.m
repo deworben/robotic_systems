@@ -3,8 +3,10 @@ set(gcf,'color','w');
 
 % set the joint restraints (estimating about 270 degrees rotation) 
 % allow maximum base rotation 
+
 t1_range = [(-deg2rad(135)):0.2:deg2rad(135)];
 dt_1 = size(t1_range,2)
+
 
 % dont want to rotate higher or lower than 90 degrees for second joint 
 t2_range =[0:0.1:deg2rad(90)];
@@ -20,6 +22,7 @@ tolerance = 0.001;
 chessboard_height = 7.5; 
 X = zeros(0);
 Y = zeros(0);
+<<<<<<< HEAD
 % figure
 %XZ plotting
 counter = 1;
