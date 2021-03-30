@@ -85,8 +85,28 @@ End_Effector_Frame = 5;
         End_Effector_Frame); 
     
 
-%% Link Length Determination 
+%% Link Lengths
 
+%Task 1: plot the range of points given by the end effector at a variety of
+%joint angles. Iterate through these and create a plot that visualises both
+%these points as well as what the chess board looks like
+figure(3)
+link_lengths("XZ");
+figure(4)
+%This next XY plot takes a long time (roughly 12 mins) before you get an xy plot
+%worth using. It is commented out for convenience, however feel free to
+%uncomment to verify. It is essentially the same code, just wrapped in
+%another for loop and only visualising the XY instead of XZ axes
+% link_lengths("XY");
+
+%Task 2: Task 2 involves iterating the variables in the forward_kinematics
+%script such that the right configuration to fit our task (a complete
+%coverage of the chessboard) is found. These parameters have been set as
+%the default to demonstrate the result of this experimentation process
+
+%Task 3: See report for further clarification. In summary - having link lengths 
+%too long means that they're too heavy and possible motor failure will
+%ensue whereas too short means not enough board coverage.
 
 
 
