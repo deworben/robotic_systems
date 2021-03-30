@@ -8,9 +8,9 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
   
     % link lengths 
     syms l1 l2 l3 lE
-    l1 = 15;
-    l2 = 25;
-    l3 = 25; 
+    l1 = 30;
+    l2 = 35;
+    l3 = 35; 
     lE = 10;
     
     a0  = 0;
@@ -78,6 +78,10 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
         text(round(X,5),round(Y,5),round(Z,5),labels,'VerticalAlignment','top','HorizontalAlignment','left','FontSize',14)
         drawnow
         hold off 
+        view(2)
+        
+        xlim([0 50])
+        ylim([0 50])
         
     end 
     
