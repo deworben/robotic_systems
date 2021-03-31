@@ -12,7 +12,7 @@ syms q1 q2 q3 q4 l1 l2 l3 lE
 
 End_Effector_Frame = 5;
 
-% Task 1: produce transformation matrics of frame i with respect to i-1
+% Task 1: produce transformation matrices of frame i expressed in i-1
 %         and show final transformation matrix w.r.t inertial frame 
 
     % First: create the DH Table 
@@ -62,6 +62,7 @@ End_Effector_Frame = 5;
     % frame. The last frame will be the end effector
      
     for i = 2:End_Effector_Frame
+        % frame {i} expressed in frame {0} 
         T0i(:,:,i) = previous*Timinus_i(:,:,i);
         previous = T0i(:,:,i);
     end 
@@ -75,7 +76,7 @@ End_Effector_Frame = 5;
     % forward_kinematics takes 3 arguments: 
     % - the joint space Q, 
     % - a string to specify if you want to print a stick figure, 
-    % - the frame number you wish to ouput (i.e for end effector, would
+    % - the frame number you wish to output (i.e for end effector, would
     % enter 5) 
     % NOTE: the link lengths are specified in forward_kinematics.m
     
@@ -97,6 +98,7 @@ figure(4)
 %worth using. It is commented out for convenience, however feel free to
 %uncomment to verify. It is essentially the same code, just wrapped in
 %another for loop and only visualising the XY instead of XZ axes
+
 % link_lengths("XY");
 
 %Task 2: Task 2 involves iterating the variables in the forward_kinematics

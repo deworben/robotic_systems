@@ -10,8 +10,9 @@ dt_1 = size(t1_range,2);
 t2_range =[0:0.1:deg2rad(90)];
 dt_2 = size(t2_range,2);
 
-% elbow joint never want to rotate 'forearm' above the 'upper arm' 
-t3_range = [-deg2rad(135):0.1:0];
+% elbow joint never want to rotate 'forearm' above the 'upper arm'
+% also ensure arm is never straight - by not letting t3 = 0 degrees 
+t3_range = [-deg2rad(135):0.1:-deg2rad(2)];
 dt_3 = size(t3_range,2);
 
 X = zeros(0);
@@ -19,7 +20,7 @@ Y = zeros(0);% figure
 
 counter=1;
 
-%% plot joint space 
+%% plot workspace space 
 if plot_axes == "XZ"
 
 
@@ -30,13 +31,9 @@ if plot_axes == "XZ"
         for k = 1:dt_3
             t3 = t3_range(k);
 
-            % ensure straight arm configuration doesnt occur
-            if (t3 == t2) 
-                continue 
-            end 
-
-            % Solve forward kinematics with end_effector @ 90 degrees
-            % constraint
+            
+            % Solve forward kinematics and apply constraint to ensure end 
+            % effector is always pointing straight down      
             t4  = - t3 - t2;
             Q = [0,t2,t3,t4];
             T0E = forward_kinematics(Q,'No Print',5); 
@@ -87,14 +84,11 @@ elseif plot_axes == "XY"
             for k = 1:dt_3
                 t3 = t3_range(k);
 
-                % ensure straight arm configuration doesnt occur
-                if (t3 == t2) 
-                    continue 
-                end 
+                
 
 
-                % Solve forward kinematics with end_effector @ 90 degrees
-                % constraint
+                % Solve forward kinematics and apply constraint to ensure end 
+                % effector is always pointing straight down
                 t4  = - t3 - t2;
                 Q = [t1,t2,t3,t4];
                 T0E = forward_kinematics(Q,'No Print',5); 
