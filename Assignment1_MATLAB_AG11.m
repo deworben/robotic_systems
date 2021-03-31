@@ -6,7 +6,7 @@
 % Section 3: Inverse Kinematics
 
 %% Forward Kinematics 
-fprintf('--------------- Forward Kinematics -------------------\n') 
+fprintf('--------------- Forward Kinematics -------------------\n\n') 
 % symbolic variables, q are joint angles, l are link lengths  
 syms q1 q2 q3 q4 l1 l2 l3 lE 
 
@@ -90,9 +90,9 @@ End_Effector_Frame = 5;
     % The pose is calculated: 
     T0E_zero_position = forward_kinematics(Q_zero_position,'Print',...
         End_Effector_Frame);
-    fprintf('The zero pose with is: \n')
+    fprintf('The zero pose with optimal link lengths is: \n')
     disp(T0E_zero_position)
-    fprintf('Note that the optimum link lengths have already been determined here\n')
+    fprintf('To repeat Report Figures 2 and 3, manually change the link lengths\n in forward_kinematcs to what was specified in report\n\n')
    
 
 %% Link Lengths
@@ -121,9 +121,9 @@ figure(4)
 
 %Optimal link lengths: 
 L = [30, 35, 35, 10];
-fprintf('--------------- Determine Link Lengths -------------------\n') 
-fprintf('See figure 3 and 4 for outputs. Note figure 4 takes approx 10')
-fprintf(' minutes to run, so has been commented out\n')
+fprintf('--------------- Determine Link Lengths -------------------\n\n') 
+fprintf('See MATLAB figure 3 and 4 for outputs. Note figure 4 takes approx 10')
+fprintf(' minutes to run, \n so has been commented out\n\n')
 fprintf('The optimal link lengths are:\n')
 disp(L)
 
@@ -132,7 +132,7 @@ disp(L)
 
 
 %% Inverse Kinematics 
-fprintf('--------------- Inverse Kinematics -------------------\n') 
+fprintf('--------------- Inverse Kinematics -------------------\n\n') 
 %Task: demonstrate the inverse kinematics solution is correct by selecting
 %2 specific locations to place a given piece on the chessboard and
 %calculating the joint space solutions associated with each of the locations.

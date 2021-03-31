@@ -20,7 +20,7 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
     
     % link lengths - to repeat Figures 2 and 3 in report, set these to
     % L = [10,30,30,5] 
-    L = [30, 35, 35, 10];  % optimal lengths
+    L = [30, 35, 35, 10];  % optimal eng
     
     l1 = L(1);
     l2 = L(2);
