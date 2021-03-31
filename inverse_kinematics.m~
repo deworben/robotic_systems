@@ -4,7 +4,7 @@ function [Q] = inverse_kinematics(x,y,z,manifold)
     %manifolds
     
     %arm length parameters
-    l0 = 30; %cm
+    l0 = 5; %cm
     l1 = 35; %cm
     l2 = 35; %cm
     lE = 10; %cm (length of end effector tube)
@@ -25,8 +25,8 @@ function [Q] = inverse_kinematics(x,y,z,manifold)
           0 0 1 z;
           0 0 0 1];
  
-      
-    E_1 = T_10 * E_0;  %coordinates of end effector in frame 1 (rotated base)
+        
+    E_1 = T_10' * E_0;  %coordinates of end effector in frame 1 (rotated base)
     
     % also need to translate up to the 2nd joint. The end effectors height 
     % is effectively reduced in relation to the 'new origin'

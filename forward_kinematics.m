@@ -10,13 +10,15 @@
     % The function returns the pose for a specified frame. It can also
     % print a stick figure if specified. 
 
-function [T0F] = forward_kinematics(Q,PrintStick,frame,L)
+function [T0F] = forward_kinematics(Q,PrintStick,frame)
     %% system parameters 
     % robot angles 
     t1 = Q(1);
     t2 = Q(2); 
     t3 = Q(3);
     t4 = Q(4); 
+    
+    L = [30, 35, 35, 10];
     
     l1 = L(1);
     l2 = L(2);

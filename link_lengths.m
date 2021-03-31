@@ -40,7 +40,7 @@ if plot_axes == "XZ"
             % effector is always pointing straight down      
             t4  = - t3 - t2;
             Q = [0,t2,t3,t4];
-            T0E = forward_kinematics(Q,'No Print',5,L); 
+            T0E = forward_kinematics(Q,'No Print',5); 
 
             % extract xyz coordinates for end effector position
             %For xz plot
@@ -95,7 +95,7 @@ elseif plot_axes == "XY"
                 % effector is always pointing straight down
                 t4  = - t3 - t2;
                 Q = [t1,t2,t3,t4];
-                T0E = forward_kinematics(Q,'No Print',5,L); 
+                T0E = forward_kinematics(Q,'No Print',5); 
 
 
                 % extract xyz coordinates for end effector position        

@@ -83,16 +83,17 @@ End_Effector_Frame = 5;
     % NOTE: the link lengths are specified in forward_kinematics.m
     
     
-    % arbitrary lengths in cm's 
-    L = [10,30,30,5];
+   
     % zero position 
     Q_zero_position = [0 0 0 0];
     
     % The pose is calculated: 
     T0E_zero_position = forward_kinematics(Q_zero_position,'Print',...
-        End_Effector_Frame,L);
-    fprintf('The zero pose with arbitrary link lengths is: \n')
+        End_Effector_Frame);
+    fprintf('The zero pose with is: \n')
     disp(T0E_zero_position)
+    fprintf('Note that the optimum link lengths have already been determined here\n')
+   
 
 %% Link Lengths
 
@@ -119,7 +120,7 @@ figure(4)
 %ensue whereas too short means not enough board coverage.
 
 %Optimal link lengths: 
-L = [30 35 35 10];
+L = [30, 35, 35, 10];
 fprintf('--------------- Determine Link Lengths -------------------\n') 
 fprintf('See figure 3 and 4 for outputs. Note figure 4 takes approx 10')
 fprintf(' minutes to run, so has been commented out\n')
@@ -153,7 +154,7 @@ EPSILON = 0.1; %for testing if the solutions are close enough
 Q = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'Print', 5,L);
+T_05 = forward_kinematics(Q, 'Print', 5);
 if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
     fprintf('test A passed, elbow up configuration\n');
 else 
@@ -164,7 +165,7 @@ end
 Q = inverse_kinematics(testA(1), testA(2), testA(3), 'down');
 
 %elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5,L);
+T_05 = forward_kinematics(Q, 'no', 5);
 if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
     fprintf('test A passed, elbow down configuration\n');
 else 
@@ -180,7 +181,7 @@ end
 Q = inverse_kinematics(testB(1), testB(2), testB(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'no', 5,L);
+T_05 = forward_kinematics(Q, 'no', 5);
 if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
     fprintf('test B passed, elbow up configuration\n');
 else 
@@ -191,7 +192,7 @@ end
 Q = inverse_kinematics(testB(1), testB(2), testB(3), 'down');
 
 %elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5,L);
+T_05 = forward_kinematics(Q, 'no', 5);
 if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
     fprintf('test B passed, elbow down configuration\n');
 else 
