@@ -1,29 +1,29 @@
 %% Written by M.Trollip, B.De Worsop and N.Parry
 
-    % 'forward_kinematics.m' takes 3 arguments: 
-    % - the joint space Q, 
-    % - a string to specify if you want to print a stick figure, enter
-    % - 'Print' to output a stick figure 
-    % - the frame number you wish to output (i.e for end effector, would
+    % 'forward_kinematics.m' takes 4 arguments: 
+    % - 1st: the joint space Q, 
+    % - 2nd: a string to specify if you want to print a stick figure, enter
+    %   'Print' to output a stick figure 
+    % - 3rd: the frame number you wish to output (i.e for end effector, would
     % - enter 5) 
+    % - 4th: the link lengths  
     % The function returns the pose for a specified frame. It can also
     % print a stick figure if specified. 
 
-function [T0F] = forward_kinematics(Q,PrintStick,frame)
+function [T0F] = forward_kinematics(Q,PrintStick,frame,L)
     %% system parameters 
     % robot angles 
     t1 = Q(1);
     t2 = Q(2); 
     t3 = Q(3);
     t4 = Q(4); 
-  
-    % link lengths 
-    syms l1 l2 l3 lE
-    l1 = 30;
-    l2 = 35;
-    l3 = 35; 
-    lE = 10;
     
+    l1 = L(1);
+    l2 = L(2);
+    l3 = L(3);
+    lE = L(4); 
+    
+    % sub in parameters 
     a0  = 0;
     a1 = 0;
     a2 = l2; 
@@ -94,10 +94,11 @@ function [T0F] = forward_kinematics(Q,PrintStick,frame)
         text(round(X(1:4),5),round(Y(1:4),5),round(Z(1:4),5),left_labels,'VerticalAlignment','top','HorizontalAlignment','left','FontSize',14)
         text(round(X(5:6),5),round(Y(5:6),5),round(Z(5:6),5),right_labels,'VerticalAlignment','top','HorizontalAlignment','right','FontSize',14)
         hold off 
-        view(2)
         
-        xlim([0 50])
-        ylim([0 50])
+        % these here - causing issues with print stick
+%         view(2)     
+%         xlim([0 50])
+%         ylim([0 50])
         
     end 
     

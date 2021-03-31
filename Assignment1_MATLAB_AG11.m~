@@ -62,12 +62,15 @@ End_Effector_Frame = 5;
     % frame. The last frame will be the end effector
      
     for i = 2:End_Effector_Frame
+        % frame {i} expressed in frame {0} 
         T0i(:,:,i) = previous*Timinus_i(:,:,i);
         previous = T0i(:,:,i);
     end 
     
     %The end effector in frame {0} is therefore 
-    T0E = T0i(:,:,End_Effector_Frame); 
+    fprintf('The symbolic solution to the robots forward kinematics is:\n');
+    T0E = simplify(T0i(:,:,End_Effector_Frame));
+    disp(T0E)
     
 % Task 2: produce end-effector pose given trivial joint space displacement 
    
@@ -75,15 +78,21 @@ End_Effector_Frame = 5;
     % forward_kinematics takes 3 arguments: 
     % - the joint space Q, 
     % - a string to specify if you want to print a stick figure, 
-    % - the frame number you wish to ouput (i.e for end effector, would
+    % - the frame number you wish to output (i.e for end effector, would
     % enter 5) 
     % NOTE: the link lengths are specified in forward_kinematics.m
     
-    % The pose is calculated: 
-    Q_zero_position = [0 0 0 0];
-    T0E_zero_position = forward_kinematics(Q_zero_position,'Print',...
-        End_Effector_Frame); 
     
+    % arbitrary lengths in cm's 
+    L = [10,30,30,5];
+    % zero position 
+    Q_zero_position = [0 0 0 0];
+    
+    % The pose is calculated: 
+    T0E_zero_position = forward_kinematics(Q_zero_position,'Print',...
+        End_Effector_Frame,L);
+    fprintf('The zero pose with arbitrary link lengths is: \n')
+    disp(T0E_zero_position)
 
 %% Link Lengths
 
@@ -97,6 +106,7 @@ figure(4)
 %worth using. It is commented out for convenience, however feel free to
 %uncomment to verify. It is essentially the same code, just wrapped in
 %another for loop and only visualising the XY instead of XZ axes
+
 % link_lengths("XY");
 
 %Task 2: Task 2 involves iterating the variables in the forward_kinematics
@@ -107,73 +117,73 @@ figure(4)
 %Task 3: See report for further clarification. In summary - having link lengths 
 %too long means that they're too heavy and possible motor failure will
 %ensue whereas too short means not enough board coverage.
-
-
-
-
-%% Inverse Kinematics 
-%Task: demonstrate the inverse kinematics solution is correct by selecting
-%2 specific locations to place a given piece on the chessboard and
-%calculating the joint space solutions associated with each of the locations.
-%Use the link lengths determined in the previous section.
-
-%specify the two test positions on the chess board in frame 0 (A and B), cm
-testA = [30, 30, 3]; %this is at roughly the height of the chessboard, simulating grabbing a piece
-testB = [20, 10, 10]; %this is 10cm in the air, simulating moving between pieces
-EPSILON = 0.1; %for testing if the solutions are close enough
-
-%run the inverse kinematics script to determine the corresponding joint
-%space solutions (show elbow up and elbow down), then run the forward 
-%kinematics script to verify that these joint space
-%solutions result in the correct end effector pose (ie the specified test
-%position). 
-
-%test A
-%elbow up solution
-Q = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
-
-%elbow up verification
-T_05 = forward_kinematics(Q, 'Print', 5);
-if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
-    fprintf('test A passed, elbow up configuration\n');
-else 
-    fprintf('test A failed, elbow up configuration\n');
-end
-
-%elbow down solution
-Q = inverse_kinematics(testA(1), testA(2), testA(3), 'down');
-
-%elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
-    fprintf('test A passed, elbow down configuration\n');
-else 
-    fprintf('test A failed, elbow down configuration\n');
-end
-
-%note: although both the solutions are valid, the elbow up solution should
-%be selected because that is the configuration the robot should always
-%operate in
-
-% %test B
-%elbow up solution
-Q = inverse_kinematics(testB(1), testB(2), testB(3), 'up');
-
-%elbow up verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
-    fprintf('test B passed, elbow up configuration\n');
-else 
-    fprintf('test B failed, elbow up configuration\n');
-end
-
-%elbow down solution
-Q = inverse_kinematics(testB(1), testB(2), testB(3), 'down');
-
-%elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5);
-if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
-    fprintf('test B passed, elbow down configuration\n');
-else 
-    fprintf('test B failed, elbow down configuration\n');
-end     
+% 
+% 
+% 
+% 
+% %% Inverse Kinematics 
+% %Task: demonstrate the inverse kinematics solution is correct by selecting
+% %2 specific locations to place a given piece on the chessboard and
+% %calculating the joint space solutions associated with each of the locations.
+% %Use the link lengths determined in the previous section.
+% 
+% %specify the two test positions on the chess board in frame 0 (A and B), cm
+% testA = [30, 30, 3]; %this is at roughly the height of the chessboard, simulating grabbing a piece
+% testB = [20, 10, 10]; %this is 10cm in the air, simulating moving between pieces
+% EPSILON = 0.1; %for testing if the solutions are close enough
+% 
+% %run the inverse kinematics script to determine the corresponding joint
+% %space solutions (show elbow up and elbow down), then run the forward 
+% %kinematics script to verify that these joint space
+% %solutions result in the correct end effector pose (ie the specified test
+% %position). 
+% 
+% %test A
+% %elbow up solution
+% Q = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
+% 
+% %elbow up verification
+% T_05 = forward_kinematics(Q, 'Print', 5);
+% if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
+%     fprintf('test A passed, elbow up configuration\n');
+% else 
+%     fprintf('test A failed, elbow up configuration\n');
+% end
+% 
+% %elbow down solution
+% Q = inverse_kinematics(testA(1), testA(2), testA(3), 'down');
+% 
+% %elbow down verification
+% T_05 = forward_kinematics(Q, 'no', 5);
+% if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
+%     fprintf('test A passed, elbow down configuration\n');
+% else 
+%     fprintf('test A failed, elbow down configuration\n');
+% end
+% 
+% %note: although both the solutions are valid, the elbow up solution should
+% %be selected because that is the configuration the robot should always
+% %operate in
+% 
+% % %test B
+% %elbow up solution
+% Q = inverse_kinematics(testB(1), testB(2), testB(3), 'up');
+% 
+% %elbow up verification
+% T_05 = forward_kinematics(Q, 'no', 5);
+% if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
+%     fprintf('test B passed, elbow up configuration\n');
+% else 
+%     fprintf('test B failed, elbow up configuration\n');
+% end
+% 
+% %elbow down solution
+% Q = inverse_kinematics(testB(1), testB(2), testB(3), 'down');
+% 
+% %elbow down verification
+% T_05 = forward_kinematics(Q, 'no', 5);
+% if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
+%     fprintf('test B passed, elbow down configuration\n');
+% else 
+%     fprintf('test B failed, elbow down configuration\n');
+% end     

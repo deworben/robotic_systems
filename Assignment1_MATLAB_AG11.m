@@ -6,7 +6,7 @@
 % Section 3: Inverse Kinematics
 
 %% Forward Kinematics 
-
+fprintf('--------------- Forward Kinematics -------------------\n') 
 % symbolic variables, q are joint angles, l are link lengths  
 syms q1 q2 q3 q4 l1 l2 l3 lE 
 
@@ -68,7 +68,9 @@ End_Effector_Frame = 5;
     end 
     
     %The end effector in frame {0} is therefore 
-    T0E = T0i(:,:,End_Effector_Frame); 
+    fprintf('The symbolic solution to the robots forward kinematics is:\n');
+    T0E = simplify(T0i(:,:,End_Effector_Frame));
+    disp(T0E)
     
 % Task 2: produce end-effector pose given trivial joint space displacement 
    
@@ -80,11 +82,17 @@ End_Effector_Frame = 5;
     % enter 5) 
     % NOTE: the link lengths are specified in forward_kinematics.m
     
-    % The pose is calculated: 
-    Q_zero_position = [0 0 0 0];
-    T0E_zero_position = forward_kinematics(Q_zero_position,'Print',...
-        End_Effector_Frame); 
     
+    % arbitrary lengths in cm's 
+    L = [10,30,30,5];
+    % zero position 
+    Q_zero_position = [0 0 0 0];
+    
+    % The pose is calculated: 
+    T0E_zero_position = forward_kinematics(Q_zero_position,'Print',...
+        End_Effector_Frame,L);
+    fprintf('The zero pose with arbitrary link lengths is: \n')
+    disp(T0E_zero_position)
 
 %% Link Lengths
 
@@ -110,10 +118,20 @@ figure(4)
 %too long means that they're too heavy and possible motor failure will
 %ensue whereas too short means not enough board coverage.
 
+%Optimal link lengths: 
+L = [30 35 35 10];
+fprintf('--------------- Determine Link Lengths -------------------\n') 
+fprintf('See figure 3 and 4 for outputs. Note figure 4 takes approx 10')
+fprintf(' minutes to run, so has been commented out\n')
+fprintf('The optimal link lengths are:\n')
+disp(L)
+
+
 
 
 
 %% Inverse Kinematics 
+fprintf('--------------- Inverse Kinematics -------------------\n') 
 %Task: demonstrate the inverse kinematics solution is correct by selecting
 %2 specific locations to place a given piece on the chessboard and
 %calculating the joint space solutions associated with each of the locations.
@@ -135,7 +153,7 @@ EPSILON = 0.1; %for testing if the solutions are close enough
 Q = inverse_kinematics(testA(1), testA(2), testA(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'Print', 5);
+T_05 = forward_kinematics(Q, 'Print', 5,L);
 if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
     fprintf('test A passed, elbow up configuration\n');
 else 
@@ -146,7 +164,7 @@ end
 Q = inverse_kinematics(testA(1), testA(2), testA(3), 'down');
 
 %elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5);
+T_05 = forward_kinematics(Q, 'no', 5,L);
 if ((abs(T_05(1,4) - testA(1)) < EPSILON) && (abs(T_05(2,4) - testA(2)) < EPSILON) && (abs(T_05(3,4) - testA(3)) < EPSILON))
     fprintf('test A passed, elbow down configuration\n');
 else 
@@ -162,7 +180,7 @@ end
 Q = inverse_kinematics(testB(1), testB(2), testB(3), 'up');
 
 %elbow up verification
-T_05 = forward_kinematics(Q, 'no', 5);
+T_05 = forward_kinematics(Q, 'no', 5,L);
 if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
     fprintf('test B passed, elbow up configuration\n');
 else 
@@ -173,7 +191,7 @@ end
 Q = inverse_kinematics(testB(1), testB(2), testB(3), 'down');
 
 %elbow down verification
-T_05 = forward_kinematics(Q, 'no', 5);
+T_05 = forward_kinematics(Q, 'no', 5,L);
 if ((abs(T_05(1,4) - testB(1)) < EPSILON) && (abs(T_05(2,4) - testB(2)) < EPSILON) && (abs(T_05(3,4) - testB(3)) < EPSILON))
     fprintf('test B passed, elbow down configuration\n');
 else 

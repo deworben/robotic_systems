@@ -1,5 +1,9 @@
 function [done_flag] = link_lengths(plot_axes)
 
+% the optimal link lengths in cm: 
+L = [30 35 35 10];
+
+
 % set the joint restraints (estimating about 270 degrees rotation) 
 % allow maximum base rotation 
 
@@ -36,7 +40,7 @@ if plot_axes == "XZ"
             % effector is always pointing straight down      
             t4  = - t3 - t2;
             Q = [0,t2,t3,t4];
-            T0E = forward_kinematics(Q,'No Print',5); 
+            T0E = forward_kinematics(Q,'No Print',5,L); 
 
             % extract xyz coordinates for end effector position
             %For xz plot
@@ -91,7 +95,7 @@ elseif plot_axes == "XY"
                 % effector is always pointing straight down
                 t4  = - t3 - t2;
                 Q = [t1,t2,t3,t4];
-                T0E = forward_kinematics(Q,'No Print',5); 
+                T0E = forward_kinematics(Q,'No Print',5,L); 
 
 
                 % extract xyz coordinates for end effector position        
