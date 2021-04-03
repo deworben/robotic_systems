@@ -16,7 +16,9 @@ syms m_chess
 
 M = [m1 m2 m3 m4 m_chess];
 
-%% Jacobean for end effector: 
+%% Jacobean for end effector:
+end_effector_frame = 5;
+
 J_E = jacobean(Q,L,end_effector_frame); 
 
 %% Jacobean for COM of each link:
@@ -29,9 +31,7 @@ J_4 = jacobean(Q,L,4);
 Tau = torque_required(Q,L,M);
 
 %% Sub in numbers for symbolic variables - sub in for Q, L and M,m_chess and g
-% iteratively solve to get the Tau at each position in workspace 
-% figure out what the maximum tau values are for each joint check that they
-% are within the correct lengths 
+% do this in 'plot_torques.m'. So that have no symbolic variables 
 
 % aribtrary values 
 Q = [0.5,0.4,0.3,0.2];
