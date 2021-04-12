@@ -31,9 +31,9 @@ function [T0F] = forward_kinematics(Q,PrintStick,L,frame)
     % sub in parameters 
     a0  = 0;
     a1 = 0;
-    a2 = L(1); 
-    a3 = L(2); 
-    d1 = L(3);
+    a2 = L(2); 
+    a3 = L(3); 
+    d1 = L(1);
     dE = L(4);
 
     
