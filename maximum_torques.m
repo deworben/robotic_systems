@@ -4,10 +4,20 @@
 
 %% arbitrary values for now 
 
+% link lengths and link masses 
+L = [0.3 0.35 0.36 0.1];
 
-L = [30 35 35 10];
-M = [0.4 0.4 0.4 0.5 0.2];
-Tau = torque_required(Q,L,M);
+m_l1 = 0.1;
+m_l2 = 0.11;
+m_l3 = 0.12;
+m_l4 = 0.01;
+m_mot3 = 0.086;
+m_mot4 = 0.086; 
+m_chess = 0.05;
+
+M = [0.1 0.11 0.12 0.01 0.086 0.086 0.05];
+
+%Tau = torque_required(Q,L,M);
 
 
 %% get the range of joint angles 
@@ -19,7 +29,7 @@ dq_1 = size(q1_range,2);
 q2_range =[0:0.1:deg2rad(90)];
 dq_2 = size(q2_range,2);
 
-% elbow joint never want to rotate 'forearm' above the 'upper arm'
+% elbow joint never want to position 'forearm' above the 'upper arm'
 % also ensure arm is never straight - by not letting t3 = 0 degrees 
 q3_range = [-deg2rad(135):0.1:-deg2rad(2)];
 dq_3 = size(q3_range,2);

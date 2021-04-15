@@ -1,4 +1,4 @@
-function [J] = jacobean(Q,L,frame)
+function [J] = jacobean(Q,L,frame,isCOM)
 
 % link lenghts 
 l1 = L(1);
@@ -17,15 +17,16 @@ for i = 1:5
 end 
 
 
-if frame == 5 
-    isCOM = 'false'; 
-    % error frame 5 is only for end effector!!
+if frame == 5 && isCOM == 'true' 
+    % error frame 5 is only for end effector!! 
+    fprintf("ERROR: frame 5 is only for end effector, not COM of link'); 
+   
 
-elseif frame == 4 
+elseif frame == 4 && i
     % calculating J for COM of link 4
     isCOM = 'true';
     L_joint_to_COM = R0i(:,:,4)*[0; lE/2; 0];
-
+ 
 
 elseif frame == 3
     % calculating J for COM of link 3 
