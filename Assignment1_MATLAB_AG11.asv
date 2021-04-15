@@ -140,7 +140,7 @@ fprintf('--------------- Inverse Kinematics -------------------\n\n')
 
 %specify the two test positions on the chess board in frame 0 (A and B), cm
 testA = [30, 30, 3]; %this is at roughly the height of the chessboard, simulating grabbing a piece
-testB = [25, 25, 35]; %this is 10cm in the air, simulating moving between pieces
+testB = [25, 25, 25]; %this is 10cm in the air, simulating moving between pieces
 EPSILON = 0.1; %for testing if the solutions are close enough
 
 %run the inverse kinematics script to determine the corresponding joint
