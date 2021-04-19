@@ -19,16 +19,42 @@ syms m_chess
 
 M = [m_l1 m_l2 m_l3 m_l4 m_mot3 m_mot4 m_chess];
 
-%% Jacobean for end effector:
+%% Jacobian for end effector:
 end_effector_frame = 5;
 
 J_E = jacobean_joint(Q,L,end_effector_frame); 
 
-%% Jacobean for COM of each link:
+%% Jacobian for COM of each link:
 J_1 = jacobean_Link(Q,L,1);
+latex(J_1(1:3,:));
+
 J_2 = jacobean_Link(Q,L,2);
+latex(J_2(1:3,:));
+
 J_3 = jacobean_Link(Q,L,3);
+J_3 = simplify(J_3);
+latex(J_3(1:3,:));
+
 J_4 = jacobean_Link(Q,L,4);
+J_4 = simplify(J_4);
+latex(J_4(1:3,:));
+
+%% Jacobian for each motor
+J_motor1 = jacobean_joint(Q,L,1);
+J_motor1 = simplify(J_motor1);
+latex(J_motor1(1:3,:));
+
+J_motor2 = jacobean_joint(Q,L,2);
+J_motor2 = simplify(J_motor2);
+latex(J_motor2(1:3,:));
+
+J_motor3 = jacobean_joint(Q,L,3);
+J_motor3 = simplify(J_motor3);
+latex(J_motor3(1:3,:));
+
+J_motor4 = jacobean_joint(Q,L,4);
+J_motor4 = simplify(J_motor4);
+latex(J_motor4(1:3,:));
 
 %% Symbolic Tau required to hold robot up given particular joint angle: 
 Tau = torque_required(Q,L,M);
