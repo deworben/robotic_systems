@@ -9,7 +9,8 @@ lE = L(4);
 % get the rotation matrices from i to 0 and the z_i axes in frame 0 
 for i = 1:frame 
     % transformations from {i} to {0} are 
-    T0i(:,:,i) = forward_kinematics(Q,'no print',L,i);
+    temp = [0, 0];
+    T0i(:,:,i) = forward_kinematics(Q,'no print',L,i, temp);
     % rotation matrices from {i} to {0} are:
     R0i(:,:,i) = T0i(1:3,1:3,i);
     % z_i axis in frame 0 is: 

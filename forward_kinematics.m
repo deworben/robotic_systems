@@ -10,23 +10,13 @@
     % The function returns the pose for a specified frame. It can also
     % print a stick figure if specified. 
 
-function [T0F] = forward_kinematics(Q,PrintStick,L,frame)
+function [T0F] = forward_kinematics(Q,PrintStick,L,frame, tau)
     %% system parameters 
     % robot angles 
     t1 = Q(1);
     t2 = Q(2); 
     t3 = Q(3);
-    t4 = Q(4); 
-    
-    % link lengths - to repeat Figures 2 and 3 in report, set these to
-    % L = [10,30,30,5] 
-
-%     L = [30, 35, 35, 10];  % optimal lengths
-    
-%     l1 = L(1);
-%     l2 = L(2);
-%     l3 = L(3);
-%     lE = L(4); 
+    t4 = Q(4);
     
     % sub in parameters 
     a0  = 0;
@@ -64,8 +54,13 @@ function [T0F] = forward_kinematics(Q,PrintStick,L,frame)
         previous = T0i(:,:,i) ;
     end 
     
+    
      %% Print Stick Figure if specified    
      if PrintStick == "Print"
+         
+         if T0i(3,4,5) < 0
+            %do nothing 
+         else
         
         n_transforms = frame; 
             X = [0];
@@ -77,35 +72,42 @@ function [T0F] = forward_kinematics(Q,PrintStick,L,frame)
                 Z(i+1) = T0i(3,4,i);
             end 
 %         figure 
-        set(gca,'FontSize', 14)
-        
+%         set(gca,'FontSize', 14)
+%         set(gcf,'color','w');
+%         
 
         % round to prevent any weird rounding errors and plot stick figure 
-        plot3(round(X,5),round(Y,5),round(Z,5))  
+        plot3(round(X,5),round(Y,5),round(Z,5), 'color',[.5 .4 .7]) % the link length 
         xlabel('x_0 Displacement (cm)','FontSize',14)
         ylabel('y_0 Displacement (cm)','FontSize',14)
         zlabel('z_0 Displacement (cm)','FontSize',14)
-        title('Stick Figure Plot of Robot Using Forward Kinematics','FontSize',15) 
+        title('Plot torque values based on robot configuration','FontSize',40) 
+
+
         grid on
         hold on
-        plot3(round(X,5),round(Y,5),round(Z,5),'o') 
+        
+%         real_cols = [255,((max(abs(tau)))/1.6) * 255,((max(abs(tau)))/1.6) * 255]
+%         RGB = validatecolor(uint8([255,255- (((max(abs(tau)))/1.6) * 255), 255 - (((max(abs(tau)))/1.6) * 255)]));
+        RGB = validatecolor(uint8([255 - (((max(abs(tau)))/1.6) * 255),255- (((max(abs(tau)))/1.6) * 255), 255 - (((max(abs(tau)))/1.6) * 255)]));
+        plot3(round(X,5),round(Y,5),round(Z,5),'o','MarkerFaceColor', RGB); % the blue joint circle
        
-        left_labels = {'Joint 1/Base','Joint 2','Joint 2', 'Joint 3'}; 
-        right_labels = {'Joint 4', 'End Effector'};
+%         left_labels = {'Joint 1/Base','Joint 2','Joint 2', 'Joint 3'}; 
+%         right_labels = {'Joint 4', 'End Effector'};
         % joints with labels on 
-
         % some on the left and some on the right of the joints depending on
         % figure 
-        text(round(X(1:4),5),round(Y(1:4),5),round(Z(1:4),5),left_labels,'VerticalAlignment','top','HorizontalAlignment','left','FontSize',14)
-        text(round(X(5:6),5),round(Y(5:6),5),round(Z(5:6),5),right_labels,'VerticalAlignment','top','HorizontalAlignment','right','FontSize',14)
-        hold off 
+%         text(round(X(1:4),5),round(Y(1:4),5),round(Z(1:4),5),left_labels,'VerticalAlignment','top','HorizontalAlignment','left','FontSize',14)
+%         text(round(X(5:6),5),round(Y(5:6),5),round(Z(5:6),5),right_labels,'VerticalAlignment','top','HorizontalAlignment','right','FontSize',14)
+%         hold off 
         
         % these here - causing issues with print stick
-%         view(2)     
-%         xlim([0 50])
-%         ylim([0 50])
-        
-    end 
+        xlim([-0.1 0.1])
+        ylim([-0.1 0.1])
+        view([0,0])     
+
+        end 
+    end
     
     %% return the pose of a particular joint 
     
@@ -113,5 +115,6 @@ function [T0F] = forward_kinematics(Q,PrintStick,L,frame)
     % kinematics
     
     T0F = T0i(:,:,frame);
-end 
+     
+end
    

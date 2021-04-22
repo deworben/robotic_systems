@@ -31,15 +31,18 @@ J_3 = jacobean_Link(Q,L,3);
 J_4 = jacobean_Link(Q,L,4);
 
 %% Symbolic Tau required to hold robot up given particular joint angle: 
-Tau = torque_required(Q,L,M);
+% Tau = torque_required(Q,L,M);
 
 %% Sub in numbers for symbolic variables - sub in for Q, L and M,m_chess and g
 % do this in 'plot_torques.m'. So that have no symbolic variables 
 
-% aribtrary values 
-Q = [0.5,0.4,0.3,0.2];
-L = [30 35 35 10];
-M = [0.4 0.4 0.4 0.5 0.2];
-Tau = torque_required(Q,L,M);
+Q = [0,0,0,0];
+L = [0.3 0.35 0.36 0.1];
+M = [0.1 0.11 0.12 0.01 0.086 0.086 0.07];
 
+Tau = vpa(torque_required(Q,L,M))
+
+
+% Q = [0,0,0,0.5]
+% vpa(torque_required(Q,L,M))
 

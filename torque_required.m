@@ -38,6 +38,7 @@ m_mot3 = M(5);
 m_mot4 = M(6); 
 m_chess = M(7); 
 g=9.8;
+
 % torque required 
 Tau = Jvl1.'*[0;0;-m_l1*g] + Jvl2.'*[0;0;-m_l2*g] + Jvl3.'*[0;0;-m_l3*g]...
     + Jvl4.'*[0;0;-m_l4*g] + Jvm3.'*[0;0;-m_mot3*g]...
